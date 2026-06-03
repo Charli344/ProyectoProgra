@@ -1,5 +1,6 @@
 package ucr.ac.cr.Huellitas.controller;
 
+import ucr.ac.cr.Huellitas.model.User;
 import ucr.ac.cr.Huellitas.model.dto.UserDTO;
 import ucr.ac.cr.Huellitas.service.UserService;
 import jakarta.validation.Valid;
@@ -32,5 +33,28 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("El correo ya existe");
         }
         return ResponseEntity.ok("Usuario registrado exitosamente");
+    }
+
+    @GetMapping("/getAll")
+    public ResponseEntity<List<User>> getAll(){
+        return ResponseEntity.ok(service.getAll());
+    }
+
+    @GetMapping("/getById/{id}")
+    public ResponseEntity<?> getById(@PathVariable Integer id){
+        User user = service.getById(id);
+        if (user == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("El usuario no existe");
+        }
+        return ResponseEntity.ok(user);
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<?> delete(@PathVariable Integer id){
+        User user = service.delete(id);
+        if (user == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("El usuario no existe");
+        }
+        return ResponseEntity.ok("El usuario ha sido eliminado");
     }
 }

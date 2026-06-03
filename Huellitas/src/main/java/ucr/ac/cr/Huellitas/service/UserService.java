@@ -6,6 +6,8 @@ import ucr.ac.cr.Huellitas.repository.UserJpaRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.List;
+
 @Service
 public class UserService {
     @Autowired
@@ -21,5 +23,22 @@ public class UserService {
         userTemp.setPassword(user.getPassword());
         userTemp.setRole(user.getRole());
         return repository.save(userTemp);
+    }
+
+    public List<User> getAll(){
+        return repository.findAll();
+    }
+
+    public User getById(Integer id){
+        return repository.findById(id).orElse(null);
+    }
+
+    public User delete(Integer id){
+        User user = repository.findById(id).orElse(null);
+        if (user == null) {
+            return null;
+        }
+        repository.delete(user);
+        return user;
     }
 }
