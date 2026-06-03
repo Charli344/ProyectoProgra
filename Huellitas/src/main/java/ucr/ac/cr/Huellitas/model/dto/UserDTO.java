@@ -1,35 +1,29 @@
-package ucr.ac.cr.Huellitas.model;
+package ucr.ac.cr.Huellitas.model.dto;
 
-import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
 
-@Entity
-@Table(name="tb_users")
-public class User {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+public class UserDTO {
+    @NotBlank(message = "El nombre no puede quedar en blanco")
     private String name;
+    @Email(message = "Correo incorrecto")
+    @NotBlank(message = "El nombre no puede quedar en blanco")
     private String email;
+    @Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&.#_-])[A-Za-z\\d@$!%*?&.#_-]{8,}$",
+            message = "La contraseña debe tener mínimo 8 caracteres, una mayúscula, una minúscula, un número y un carácter especial")
     private String password;
+    @NotBlank(message = "Debe seleccionar un rol")
     private String role;
 
-    public User() {
+    public UserDTO() {
     }
 
-    public User(Integer id, String name, String email, String password, String role) {
-        this.id = id;
+    public UserDTO(String name, String email, String password, String role) {
         this.name = name;
         this.email = email;
         this.password = password;
         this.role = role;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
     }
 
     public String getName() {

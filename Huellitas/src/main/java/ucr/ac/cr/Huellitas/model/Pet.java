@@ -3,7 +3,7 @@ package ucr.ac.cr.Huellitas.model;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "tb_pets")
+@Table(name="tb_pets")
 public class Pet {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
