@@ -48,6 +48,15 @@ public class UserService {
         return repository.save(user);
     }
 
+    public User changePassword(String email, String newPassword){
+        User user = repository.findByEmail(email);
+        if (user == null){
+            return null;
+        }
+        user.setPassword(newPassword);
+        return repository.save(user);
+    }
+
     public User delete(Integer id){
         User user = repository.findById(id).orElse(null);
         if (user == null){
