@@ -43,16 +43,32 @@ public class UserController {
     @GetMapping("/getById/{id}")
     public ResponseEntity<?> getById(@PathVariable Integer id){
         User user = service.getById(id);
-        if (user == null) {
+        if (user == null){
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("El usuario no existe");
         }
         return ResponseEntity.ok(user);
     }
 
+    @PutMapping("/update/{id}")
+    public ResponseEntity<?> update(@PathVariable Integer id, @Valid @RequestBody UserDTO user, BindingResult result){
+        if (result.hasErrors()){
+            List<String> errors = new ArrayList<>();
+            for (ObjectError error : result.getAllErrors()){
+                errors.add(error.getDefaultMessage());
+            }
+            return ResponseEntity.badRequest().body(errors);
+        }
+        User updatedUser = service.update(id, user);
+        if (updatedUser == null){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Usuario no encontrado o el correo ya existe");
+        }
+        return ResponseEntity.ok("Usuario actualizado exitosamente");
+    }
+
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<?> delete(@PathVariable Integer id){
         User user = service.delete(id);
-        if (user == null) {
+        if (user == null){
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("El usuario no existe");
         }
         return ResponseEntity.ok("El usuario ha sido eliminado");

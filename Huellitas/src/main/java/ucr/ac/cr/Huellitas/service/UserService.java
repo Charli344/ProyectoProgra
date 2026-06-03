@@ -33,9 +33,24 @@ public class UserService {
         return repository.findById(id).orElse(null);
     }
 
+    public User update(Integer id, UserDTO userDTO){
+        User user = repository.findById(id).orElse(null);
+        if (user == null){
+            return null;
+        }
+        if (!user.getEmail().equals(userDTO.getEmail()) && repository.existsByEmail(userDTO.getEmail())){
+            return null;
+        }
+        user.setName(userDTO.getName());
+        user.setEmail(userDTO.getEmail());
+        user.setPassword(userDTO.getPassword());
+        user.setRole(userDTO.getRole());
+        return repository.save(user);
+    }
+
     public User delete(Integer id){
         User user = repository.findById(id).orElse(null);
-        if (user == null) {
+        if (user == null){
             return null;
         }
         repository.delete(user);
