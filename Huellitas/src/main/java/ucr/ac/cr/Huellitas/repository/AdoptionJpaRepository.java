@@ -12,4 +12,6 @@ public interface AdoptionJpaRepository extends JpaRepository<Adoption, Integer> 
 
     List<Adoption> findByUserId(Integer userId);
     List<Adoption> findByStatus(AdoptionStatus status);
+    List<Adoption> findByUserIdAndByPetId(Integer userId, Integer petId);
+    List<Adoption> findByPetId(Integer petId);
 }
