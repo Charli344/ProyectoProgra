@@ -3,6 +3,7 @@ package ucr.ac.cr.Huellitas.model.dto;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Null;
 
 public class PetDTO {
 
@@ -25,8 +26,8 @@ public class PetDTO {
     @NotBlank(message = "La descripción no puede quedar en blanco")
     private String description;
 
-    @NotBlank(message = "El estado de adopción no puede quedar en blanco")
-    private String adoptionStatus;
+    @NotNull(message = "El estado de adopción no puede quedar en blanco")
+    private PetStatus adoptionStatus;
 
     private String photo;
 
@@ -34,7 +35,7 @@ public class PetDTO {
     }
 
     public PetDTO(String name, String species, String breed, Integer age, String sex,
-                  String description, String adoptionStatus, String photo) {
+                  String description, PetStatus adoptionStatus, String photo) {
         this.name = name;
         this.species = species;
         this.breed = breed;
@@ -93,11 +94,11 @@ public class PetDTO {
         this.description = description;
     }
 
-    public String getAdoptionStatus() {
+    public PetStatus getAdoptionStatus() {
         return adoptionStatus;
     }
 
-    public void setAdoptionStatus(String adoptionStatus) {
+    public void setAdoptionStatus(PetStatus adoptionStatus) {
         this.adoptionStatus = adoptionStatus;
     }
 

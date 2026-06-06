@@ -1,6 +1,7 @@
 package ucr.ac.cr.Huellitas.model;
 
 import jakarta.persistence.*;
+import ucr.ac.cr.Huellitas.model.dto.PetStatus;
 
 @Entity
 @Table(name="tb_pets")
@@ -14,13 +15,14 @@ public class Pet {
     private Integer age;
     private String sex;
     private String description;
-    private String adoptionStatus;
+    @Enumerated(EnumType.STRING)
+    private PetStatus adoptionStatus;
     private String photo;
 
     public Pet() {
     }
 
-    public Pet(Integer id, String name, String species, String breed, Integer age, String sex, String description, String adoptionStatus, String photo) {
+    public Pet(Integer id, String name, String species, String breed, Integer age, String sex, String description, PetStatus adoptionStatus, String photo) {
         this.id = id;
         this.name = name;
         this.species = species;
@@ -88,11 +90,11 @@ public class Pet {
         this.description = description;
     }
 
-    public String getAdoptionStatus() {
+    public PetStatus getAdoptionStatus() {
         return adoptionStatus;
     }
 
-    public void setAdoptionStatus(String adoptionStatus) {
+    public void setAdoptionStatus(PetStatus adoptionStatus) {
         this.adoptionStatus = adoptionStatus;
     }
 
