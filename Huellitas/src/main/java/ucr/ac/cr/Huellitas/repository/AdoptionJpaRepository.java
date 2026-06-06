@@ -1,4 +1,7 @@
 package ucr.ac.cr.Huellitas.repository;
 
-public class AdoptionJpaRepository {
+import org.springframework.data.jpa.repository.JpaRepository;
+import ucr.ac.cr.Huellitas.model.Adoption;
+
+public interface AdoptionJpaRepository extends JpaRepository<Adoption, Integer> {
 }
