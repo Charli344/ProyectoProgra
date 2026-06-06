@@ -61,6 +61,19 @@ public class AdoptionController {
         return ResponseEntity.ok("Solicitud enviada con exito");
     }
 
+    @PatchMapping("/approve/{id}")
+    public ResponseEntity<?> approveAdoption(@PathVariable Integer id) {
+
+        Adoption adoption = service.approveAdoption(id);
+
+        if (adoption == null) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body("La solicitud no existe o ya fue procesada");
+        }
+
+        return ResponseEntity.ok("Solicitud aprobada exitosamente");
+    }
+
     @PatchMapping("/reject/{id}")
     public ResponseEntity<?> rejectAdoption(
             @PathVariable Integer id) {

@@ -102,7 +102,7 @@ public class AdoptionService {
             return null;
         }
 
-        if (!repository.findByUserIdAndByPetId(adoptionDTO.getUserId(), adoptionDTO.getPetId()).isEmpty()){
+        if (!repository.findByUserIdAndPetId(adoptionDTO.getUserId(), adoptionDTO.getPetId()).isEmpty()){
             return null;
         }
 
