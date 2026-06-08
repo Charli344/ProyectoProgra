@@ -3,39 +3,31 @@ package ucr.ac.cr.Huellitas.model.dto;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Null;
+import ucr.ac.cr.Huellitas.model.PetStatus;
 
 public class PetDTO {
 
     @NotBlank(message = "El nombre de la mascota no puede quedar en blanco")
     private String name;
-
     @NotBlank(message = "La especie no puede quedar en blanco")
     private String species;
-
     @NotBlank(message = "La raza no puede quedar en blanco")
     private String breed;
-
     @NotNull(message = "La edad no puede quedar vacía")
     @Min(value = 0, message = "La edad no puede ser negativa")
     private Integer age;
-
     @NotBlank(message = "El sexo no puede quedar en blanco")
     private String sex;
-
     @NotBlank(message = "La descripción no puede quedar en blanco")
     private String description;
-
     @NotNull(message = "El estado de adopción no puede quedar en blanco")
     private PetStatus adoptionStatus;
-
     private String photo;
 
     public PetDTO() {
     }
 
-    public PetDTO(String name, String species, String breed, Integer age, String sex,
-                  String description, PetStatus adoptionStatus, String photo) {
+    public PetDTO(String name, String species, String breed, Integer age, String sex, String description, PetStatus adoptionStatus, String photo) {
         this.name = name;
         this.species = species;
         this.breed = breed;

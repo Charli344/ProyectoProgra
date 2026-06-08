@@ -1,4 +1,4 @@
-package ucr.ac.cr.Huellitas.model.dto;
+package ucr.ac.cr.Huellitas.model;
 
 public enum PetStatus {
     DISPONIBLE,

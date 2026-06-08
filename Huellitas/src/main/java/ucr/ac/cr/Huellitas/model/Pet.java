@@ -1,7 +1,6 @@
 package ucr.ac.cr.Huellitas.model;
 
 import jakarta.persistence.*;
-import ucr.ac.cr.Huellitas.model.dto.PetStatus;
 
 @Entity
 @Table(name="tb_pets")

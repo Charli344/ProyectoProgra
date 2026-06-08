@@ -29,7 +29,6 @@ public class AdoptionController {
     @GetMapping("/getById/{id}")
     public ResponseEntity<?> getById(@PathVariable Integer id){
         Adoption adoption = service.getById(id);
-
         if (adoption == null){
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("La solicitud no existe");
         }
@@ -45,46 +44,33 @@ public class AdoptionController {
     public ResponseEntity<?> requestAdoption(@Valid @RequestBody AdoptionDTO adoptionDTO, BindingResult result){
         if (result.hasErrors()){
             List<String> errors = new ArrayList<>();
-
             for (ObjectError error : result.getAllErrors()) {
                 errors.add(error.getDefaultMessage());
             }
-
             return ResponseEntity.badRequest().body(errors);
         }
         Adoption adoption = service.requestAdoption(adoptionDTO);
-
         if (adoption == null){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("No fue posible registrar la solicitud");
         }
-
         return ResponseEntity.ok("Solicitud enviada con exito");
     }
 
     @PatchMapping("/approve/{id}")
     public ResponseEntity<?> approveAdoption(@PathVariable Integer id) {
-
         Adoption adoption = service.approveAdoption(id);
-
         if (adoption == null) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body("La solicitud no existe o ya fue procesada");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("La solicitud no existe o ya fue procesada");
         }
-
         return ResponseEntity.ok("Solicitud aprobada exitosamente");
     }
 
     @PatchMapping("/reject/{id}")
-    public ResponseEntity<?> rejectAdoption(
-            @PathVariable Integer id) {
-
+    public ResponseEntity<?> rejectAdoption(@PathVariable Integer id) {
         Adoption adoption = service.rejectAdoption(id);
-
         if (adoption == null) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body("La solicitud no existe o ya fue procesada");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("La solicitud no existe o ya fue procesada");
         }
-
         return ResponseEntity.ok("Solicitud rechazada exitosamente");
     }
 }
