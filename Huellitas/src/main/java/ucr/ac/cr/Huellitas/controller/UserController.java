@@ -1,6 +1,7 @@
 package ucr.ac.cr.Huellitas.controller;
 
 import ucr.ac.cr.Huellitas.model.User;
+import ucr.ac.cr.Huellitas.model.dto.LoginDTO;
 import ucr.ac.cr.Huellitas.model.dto.PasswordDTO;
 import ucr.ac.cr.Huellitas.model.dto.UserDTO;
 import ucr.ac.cr.Huellitas.service.UserService;
@@ -64,6 +65,21 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Usuario no encontrado o el correo ya existe");
         }
         return ResponseEntity.ok("Usuario actualizado exitosamente");
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<?> login(@Valid @RequestBody LoginDTO login, BindingResult result){
+        if (result.hasErrors()){
+            List<String> errors = new ArrayList<>();
+            for (ObjectError error : result.getAllErrors()){
+                errors.add(error.getDefaultMessage());
+            }
+            return ResponseEntity.badRequest().body(errors);
+        }
+        if (service.login(login) == null){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Correo o contraseña incorrectos");
+        }
+        return ResponseEntity.ok("Inicio de sesión exitoso");
     }
 
     @PatchMapping("/changePassword/{email}")

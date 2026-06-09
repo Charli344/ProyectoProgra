@@ -1,6 +1,7 @@
 package ucr.ac.cr.Huellitas.service;
 
 import ucr.ac.cr.Huellitas.model.User;
+import ucr.ac.cr.Huellitas.model.dto.LoginDTO;
 import ucr.ac.cr.Huellitas.model.dto.UserDTO;
 import ucr.ac.cr.Huellitas.repository.UserJpaRepository;
 import org.springframework.stereotype.Service;
@@ -46,6 +47,14 @@ public class UserService {
         user.setPassword(userDTO.getPassword());
         user.setRole(userDTO.getRole());
         return repository.save(user);
+    }
+
+    public User login(LoginDTO login){
+        User user = repository.findByEmail(login.getEmail());
+        if (user != null && user.getPassword().equals(login.getPassword())){
+            return user;
+        }
+        return null;
     }
 
     public User changePassword(String email, String newPassword){

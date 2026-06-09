@@ -3,7 +3,6 @@ package ucr.ac.cr.Huellitas.model.dto;
 import jakarta.validation.constraints.NotNull;
 
 public class AdoptionDTO {
-
     @NotNull(message = "Debe introducir un usuario")
     private Integer userId;
     @NotNull(message = "Debe introducir una mascota")

@@ -6,7 +6,6 @@ import jakarta.validation.constraints.NotNull;
 import ucr.ac.cr.Huellitas.model.PetStatus;
 
 public class PetDTO {
-
     @NotBlank(message = "El nombre de la mascota no puede quedar en blanco")
     private String name;
     @NotBlank(message = "La especie no puede quedar en blanco")
