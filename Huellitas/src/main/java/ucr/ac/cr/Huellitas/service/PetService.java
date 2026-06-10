@@ -54,10 +54,14 @@ public class PetService {
         return petJpaRepository.save(pet);
     }
 
-    public void deletePet(Integer id) {
+    public Pet deletePet(Integer id) {
         Pet pet = getPetById(id);
-        if (pet != null) {
-            petJpaRepository.delete(pet);
+
+        if (pet == null) {
+            return null;
         }
+
+        petJpaRepository.delete(pet);
+        return pet;
     }
 }

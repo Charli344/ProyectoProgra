@@ -1,44 +1,90 @@
 package ucr.ac.cr.Huellitas.controller;
 
+import jakarta.validation.Valid;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
+import ucr.ac.cr.Huellitas.model.Pet;
 import ucr.ac.cr.Huellitas.model.dto.PetDTO;
 import ucr.ac.cr.Huellitas.service.PetService;
-import jakarta.validation.Valid;
-import org.springframework.http.ResponseEntity;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 @RequestMapping("/pets")
 public class PetController {
 
-    private final PetService petService;
+    @Autowired
+    private PetService service;
 
-    public PetController(PetService petService) {
-        this.petService = petService;
+    @GetMapping("/getAll")
+    public ResponseEntity<List<Pet>> getAll() {
+        return ResponseEntity.ok(service.getAllPets());
     }
 
-    @GetMapping
-    public ResponseEntity<?> getAllPets() {
-        return ResponseEntity.ok(petService.getAllPets());
+    @GetMapping("/getById/{id}")
+    public ResponseEntity<?> getById(@PathVariable Integer id) {
+        Pet pet = service.getPetById(id);
+
+        if (pet == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("La mascota no existe");
+        }
+
+        return ResponseEntity.ok(pet);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<?> getPetById(@PathVariable Integer id) {
-        return ResponseEntity.ok(petService.getPetById(id));
+    @PostMapping("/add")
+    public ResponseEntity<?> add(@Valid @RequestBody PetDTO petDTO, BindingResult result) {
+        if (result.hasErrors()) {
+            List<String> errors = new ArrayList<>();
+            for (ObjectError error : result.getAllErrors()) {
+                errors.add(error.getDefaultMessage());
+            }
+            return ResponseEntity.badRequest().body(errors);
+        }
+
+        Pet pet = service.createPet(petDTO);
+
+        if (pet == null) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("No fue posible registrar la mascota");
+        }
+
+        return ResponseEntity.ok("Mascota registrada exitosamente");
     }
 
-    @PostMapping
-    public ResponseEntity<?> createPet(@Valid @RequestBody PetDTO petDTO) {
-        return ResponseEntity.ok(petService.createPet(petDTO));
+    @PutMapping("/update/{id}")
+    public ResponseEntity<?> update(@PathVariable Integer id, @Valid @RequestBody PetDTO petDTO, BindingResult result) {
+        if (result.hasErrors()) {
+            List<String> errors = new ArrayList<>();
+            for (ObjectError error : result.getAllErrors()) {
+                errors.add(error.getDefaultMessage());
+            }
+            return ResponseEntity.badRequest().body(errors);
+        }
+
+        Pet pet = service.updatePet(id, petDTO);
+
+        if (pet == null) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("La mascota no existe");
+        }
+
+        return ResponseEntity.ok("Mascota actualizada exitosamente");
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<?> updatePet(@PathVariable Integer id, @Valid @RequestBody PetDTO petDTO) {
-        return ResponseEntity.ok(petService.updatePet(id, petDTO));
-    }
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<?> delete(@PathVariable Integer id) {
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<?> deletePet(@PathVariable Integer id) {
-        petService.deletePet(id);
-        return ResponseEntity.ok("Mascota eliminada correctamente");
+        Pet pet = service.deletePet(id);
+
+        if (pet == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("La mascota no existe");
+        }
+
+        return ResponseEntity.ok("La mascota ha sido eliminada");
     }
 }
